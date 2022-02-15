@@ -13,11 +13,16 @@ export const useRandomUserStore = defineStore({
   getters: {
     getUserList: (state) => state.userList,
     getFilerList: (state) => (searchQuery: string) =>
-      state.userList.filter(
-        (user) =>
-          user.name.first.toLowerCase().includes(searchQuery) ||
-          user.name.last.toLowerCase().includes(searchQuery)
-      ),
+      state.userList.filter((user) => {
+        const first = user.name.first.toLowerCase();
+        const last = user.name.last.toLowerCase();
+        return (
+          first.includes(searchQuery.toLowerCase()) ||
+          last.includes(searchQuery.toLowerCase()) 
+        );
+        // user.name.first.search(new RegExp(searchQuery, "i")) ||
+        // user.name.last.search(new RegExp(searchQuery, "i"))
+      }),
   },
   actions: {
     async fetchUserList() {

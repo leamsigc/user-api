@@ -31,7 +31,7 @@ useInfiniteScroll(
 );
 const listContent = computed((): User[] => {
   if (searchQuery.value) {
-    return userStore.getFilerList(searchQuery.value.toLocaleLowerCase());
+    return userStore.getFilerList(searchQuery.value.trim());
   } else {
     return userStore.userList;
   }
