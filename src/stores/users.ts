@@ -6,7 +6,7 @@ export const useRandomUserStore = defineStore({
   state: (): UserStore => ({
     userList: [],
     currentPage: 1,
-    resultsPerPage: 10,
+    resultsPerPage: 25,
     error: "",
     isLoading: false,
   }),

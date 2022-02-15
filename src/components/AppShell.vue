@@ -33,7 +33,7 @@ usersList.fetchUserList();
   display: grid;
   place-content: center;
   min-height: 100vh;
-
+  max-height: 100vh;
   background: rgba(0, 0, 0, 0.5);
 }
 .container {
