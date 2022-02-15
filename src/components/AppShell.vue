@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import AppContent from "@/components/AppContent.vue";
 import AppSidebar from "@/components/AppSidebar.vue";
-
+import { useRandomUserStore } from "@/stores/users";
 /**
  *
  * Component Description: The application shell
@@ -12,17 +12,30 @@ import AppSidebar from "@/components/AppSidebar.vue";
  * @todo [ ] Integration test.
  * @todo [✔] Update the typescript.
  */
+
+const usersList = useRandomUserStore();
+usersList.fetchUserList();
 </script>
 
 <template>
-  <div class="container">
-    <!-- Sidebar -->
-    <AppSidebar class="container__sidebar" />
-    <!-- Main -->
-    <AppContent class="container__main" />
-  </div>
+  <template v-if="!usersList.isLoading">
+    <div class="container">
+      <!-- Sidebar -->
+      <AppSidebar class="container__sidebar" />
+      <!-- Main -->
+      <AppContent class="container__main" />
+    </div>
+  </template>
+  <template v-else> <div class="grid-center">...loading</div> </template>
 </template>
 <style scoped lang="scss">
+.grid-center {
+  display: grid;
+  place-content: center;
+  min-height: 100vh;
+
+  background: rgba(0, 0, 0, 0.5);
+}
 .container {
   display: grid;
   grid-template-areas: "sidebar content content content";

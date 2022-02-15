@@ -8,6 +8,10 @@
       "@/*": ["./src/*"]
     }
   },
+  "types": [
+      "vite/client",
+      "@types/jest"
+    ],
 
   "references": [
     {
