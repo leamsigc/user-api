@@ -12,39 +12,54 @@
  */
 
 import { useRandomUserStore } from "@/stores/users";
+import { computed, ref } from "vue";
+import SidebarUserCard from "./SidebarUserCard.vue";
+import type { User } from "@/types/ServiceInterface";
 
-const { userList } = useRandomUserStore();
+import { useInfiniteScroll } from "@vueuse/core";
+
+const userStore = useRandomUserStore();
+const el = ref<HTMLElement>();
+
+const searchQuery = ref<string>("");
+useInfiniteScroll(
+  el,
+  () => {
+    userStore.fetchNextPage();
+  },
+  { distance: 10 }
+);
+const listContent = computed((): User[] => {
+  if (searchQuery.value) {
+    return userStore.getFilerList(searchQuery.value.toLocaleLowerCase());
+  } else {
+    return userStore.userList;
+  }
+});
 </script>
 
 <template>
   <aside>
     <div class="sidebar">
       <div class="sidebar__header">
-        <input type="text" placeholder="Search..." />
+        <input
+          type="text"
+          placeholder="Search..."
+          class="sidebar__header--input"
+          data-test="searchInput"
+          :value="searchQuery"
+          @input="(event) => (searchQuery = event.target?.value)"
+        />
       </div>
-      <div class="sidebar__content">
-        <div
-          class="sidebar__content--item"
-          v-for="user in userList"
+      <div class="sidebar__content" ref="el">
+        <SidebarUserCard
+          v-for="user in listContent"
           :key="user.phone"
-        >
-          <section class="sidebar__content--item__img">
-            <img :src="user.picture.thumbnail" alt="user.name.first" />
-          </section>
-          <section class="sidebar__content--item__details">
-            <p class="text-bold">
-              <span class="uppercase_fist">
-                {{ user.name.first }}
-              </span>
-              <span class="uppercase_fist">
-                {{ user.name.last }}
-              </span>
-            </p>
-            <p>
-              {{ user.email }}
-            </p>
-          </section>
-        </div>
+          :image-url="user.picture.thumbnail"
+          :email="user.email"
+          :fist-name="user.name.first"
+          :last-name="user.name.last"
+        />
       </div>
     </div>
   </aside>
@@ -65,6 +80,11 @@ const { userList } = useRandomUserStore();
   &__header {
     padding: calc(var(--base-pd) * 2px) calc(var(--base-pd) * 3px);
     margin-bottom: calc(var(--base-mg) * 4px);
+    &--input {
+      display: block;
+      width: 100%;
+      padding: calc(var(--base-pd) * 2px);
+    }
   }
   &__content {
     padding: calc(var(--base-pd) * 2px) calc(var(--base-pd) * 3px);
@@ -72,21 +92,6 @@ const { userList } = useRandomUserStore();
     flex: 1;
     max-height: calc(100vh - 9rem);
     overflow-y: auto;
-    &--item {
-      cursor: pointer;
-      margin-top: calc(var(--base-pd) * 2px);
-      padding: calc(var(--base-pd) * 2px) calc(var(--base-pd) * 3px);
-      display: grid;
-      grid-template-columns: 1fr 2fr 2fr;
-      grid-gap: calc(var(--base-pd) * 2px);
-
-      background: var(--base-bg);
-      &__img {
-        img {
-          border-radius: 50%;
-        }
-      }
-    }
   }
 }
 </style>
