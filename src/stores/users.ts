@@ -1,10 +1,13 @@
 import type UserStore from "@/types/UserStoreInterface";
 import { UserService } from "@/services/UserService";
 import { defineStore } from "pinia";
+
+import { useLoadingBar } from "naive-ui";
 export const useRandomUserStore = defineStore({
   id: "users",
   state: (): UserStore => ({
     userList: [],
+    unFilterUserList: [],
     currentPage: 1,
     resultsPerPage: 25,
     error: "",
@@ -12,17 +15,19 @@ export const useRandomUserStore = defineStore({
   }),
   getters: {
     getUserList: (state) => state.userList,
-    getFilerList: (state) => (searchQuery: string) =>
-      state.userList.filter((user) => {
-        const first = user.name.first.toLowerCase();
-        const last = user.name.last.toLowerCase();
-        return (
-          first.includes(searchQuery.toLowerCase()) ||
-          last.includes(searchQuery.toLowerCase()) 
-        );
-        // user.name.first.search(new RegExp(searchQuery, "i")) ||
-        // user.name.last.search(new RegExp(searchQuery, "i"))
-      }),
+    getFilerList:
+      (state) =>
+      (searchQuery: string, gender = "all") =>
+        state.userList
+          .filter((user) => (gender === "all" ? user : user.gender === gender))
+          .filter((user) => {
+            const first = user.name.first.toLowerCase();
+            const last = user.name.last.toLowerCase();
+            return (
+              first.includes(searchQuery.toLowerCase()) ||
+              last.includes(searchQuery.toLowerCase())
+            );
+          }),
   },
   actions: {
     async fetchUserList() {

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import AppContent from "@/components/AppContent.vue";
+// import AppContent from "@/components/AppContent.vue";
 import AppSidebar from "@/components/AppSidebar.vue";
 import { useRandomUserStore } from "@/stores/users";
 /**
@@ -22,8 +22,6 @@ usersList.fetchUserList();
     <div class="container">
       <!-- Sidebar -->
       <AppSidebar class="container__sidebar" />
-      <!-- Main -->
-      <AppContent class="container__main" />
     </div>
   </template>
   <template v-else> <div class="grid-center">...loading</div> </template>
@@ -39,8 +37,8 @@ usersList.fetchUserList();
 .container {
   display: grid;
   grid-template-areas: "sidebar content content content";
-  grid-template-columns: minmax(300px, 400px) repeat(3, 1fr);
-  min-height: 100vh;
+  // grid-template-columns: minmax(300px, 400px) repeat(3, 1fr);
+  // min-height: 100vh;
 
   &__sidebar {
     grid-area: sidebar;
