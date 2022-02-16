@@ -13,7 +13,7 @@
 
 import { useLoadingBar, NInput, NGrid, NGi } from "naive-ui";
 import { useRandomUserStore } from "@/stores/users";
-import { computed, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import SidebarUserCard from "./SidebarUserCard.vue";
 import type { User } from "@/types/ServiceInterface";
 
@@ -21,12 +21,16 @@ import { useInfiniteScroll } from "@vueuse/core";
 import { useRoute } from "vue-router";
 
 const userStore = useRandomUserStore();
+
+const listContent = ref(userStore.userList);
+
 const el = ref<HTMLElement>();
 
 const loadingBar = useLoadingBar();
 const route = useRoute();
 
 const searchQuery = ref<string>("");
+
 useInfiniteScroll(
   el,
   async () => {
@@ -39,7 +43,7 @@ useInfiniteScroll(
   { distance: 10 }
 );
 
-const listContent = ref<User[]>([]);
+
 watch(
   searchQuery,
   () => {
@@ -61,34 +65,48 @@ watch(route, () => {
 </script>
 
 <template>
-  <aside>
-    <div class="sidebar">
-      <div class="sidebar__header">
-        <n-input
-          type="text"
-          placeholder="Search..."
-          class="sidebar__header--input"
-          data-test="searchInput"
-          v-model:value="searchQuery"
-        />
+  <template v-if="!userStore.isLoading">
+    <aside>
+      <div class="sidebar">
+        <div class="sidebar__header">
+          <n-input
+            type="text"
+            placeholder="Search..."
+            class="sidebar__header--input"
+            data-test="searchInput"
+            v-model:value="searchQuery"
+          />
+        </div>
+        <div class="sidebar__content" ref="el">
+          <n-grid x-gap="12" y-gap="12" cols="1 400:2 600:3">
+            <n-gi
+              v-for="(user, index) in listContent"
+              :key="user.phone"
+              span="1"
+            >
+              <SidebarUserCard
+                :image-url="user.picture.thumbnail"
+                :email="user.email"
+                :fist-name="user.name.first"
+                :last-name="user.name.last"
+                :id="index"
+              />
+            </n-gi>
+          </n-grid>
+        </div>
       </div>
-      <div class="sidebar__content" ref="el">
-        <n-grid x-gap="12" y-gap="12" cols="1 400:2 600:3">
-          <n-gi v-for="(user, index) in listContent" :key="user.phone" span="1">
-            <SidebarUserCard
-              :image-url="user.picture.thumbnail"
-              :email="user.email"
-              :fist-name="user.name.first"
-              :last-name="user.name.last"
-              :id="index"
-            />
-          </n-gi>
-        </n-grid>
-      </div>
-    </div>
-  </aside>
+    </aside>
+  </template>
+  <template v-else> <div class="grid-center">...loading</div> </template>
 </template>
 <style lang="scss">
+.grid-center {
+  display: grid;
+  place-content: center;
+  min-height: 100vh;
+  max-height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+}
 .uppercase_fist {
   margin-right: calc(var(--base-mg) * 0.5px);
   &::first-letter {
