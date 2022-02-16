@@ -36,6 +36,10 @@ const listContent = computed((): User[] => {
     return userStore.userList;
   }
 });
+
+function updateQuery({ target }: { target: HTMLInputElement }) {
+  searchQuery.value = target?.value;
+}
 </script>
 
 <template>
@@ -48,7 +52,7 @@ const listContent = computed((): User[] => {
           class="sidebar__header--input"
           data-test="searchInput"
           :value="searchQuery"
-          @input="(event) => (searchQuery = event.target?.value)"
+          @input="updateQuery"
         />
       </div>
       <div class="sidebar__content" ref="el">
