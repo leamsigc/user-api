@@ -40,3 +40,5 @@ npm run test:unit
 npm run test:e2e
 
 ```
+
+[demo](https://cocky-poitras-6bd047.netlify.app/)
