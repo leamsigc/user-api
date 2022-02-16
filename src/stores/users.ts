@@ -2,12 +2,13 @@ import type UserStore from "@/types/UserStoreInterface";
 import { UserService } from "@/services/UserService";
 import { defineStore } from "pinia";
 
-import { useLoadingBar } from "naive-ui";
+import type { SetUserParams } from "@/types/ServiceInterface";
 export const useRandomUserStore = defineStore({
   id: "users",
   state: (): UserStore => ({
     userList: [],
     unFilterUserList: [],
+    currentUser: undefined,
     currentPage: 1,
     resultsPerPage: 25,
     error: "",
@@ -59,6 +60,14 @@ export const useRandomUserStore = defineStore({
       } finally {
         this.isLoading = false;
       }
+    },
+    setCurrentUser({ email, fistName, id, lastName }: SetUserParams) {
+      this.currentUser = this.userList.find(
+        (user) =>
+          user.email === email &&
+          user.name.first === fistName &&
+          user.name.last === lastName
+      );
     },
   },
 });

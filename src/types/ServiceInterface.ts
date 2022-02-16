@@ -69,3 +69,9 @@ export interface User {
   };
   nat: string;
 }
+export interface SetUserParams {
+  email: string;
+  fistName: string;
+  lastName: string;
+  id: number;
+}

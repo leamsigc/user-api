@@ -15,7 +15,6 @@ import { useLoadingBar, NInput, NGrid, NGi } from "naive-ui";
 import { useRandomUserStore } from "@/stores/users";
 import { ref, watch } from "vue";
 import SidebarUserCard from "./SidebarUserCard.vue";
-import type { User } from "@/types/ServiceInterface";
 
 import { useInfiniteScroll } from "@vueuse/core";
 import { useRoute } from "vue-router";
@@ -42,7 +41,6 @@ useInfiniteScroll(
   },
   { distance: 10 }
 );
-
 
 watch(
   searchQuery,

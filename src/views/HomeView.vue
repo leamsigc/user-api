@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRandomUserStore } from "@/stores/users";
-import { NResult,NButton } from "naive-ui";
+import { NResult, NButton } from "naive-ui";
 
 const usersList = useRandomUserStore();
 usersList.fetchUserList();

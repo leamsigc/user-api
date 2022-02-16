@@ -1,6 +1,9 @@
 <script lang="ts" setup>
+import { useRandomUserStore } from "@/stores/users";
+import type { SetUserParams } from "@/types/ServiceInterface";
 import { NAvatar, NBadge, NCard } from "naive-ui";
 import { toRefs } from "vue";
+import { useRouter } from "vue-router";
 
 /**
  *
@@ -18,25 +21,26 @@ interface PropsInterface {
   fistName: string;
   lastName: string;
   email: string;
+  id: number;
 }
 const props = defineProps<PropsInterface>();
-const { imageUrl, fistName, lastName, email } = toRefs(props);
+const { imageUrl, fistName, lastName, email, id } = toRefs(props);
+const userStore = useRandomUserStore();
+const router = useRouter();
 const HandleShowUserDetails = ({
   email,
   fistName,
   lastName,
-}: {
-  email: string;
-  fistName: string;
-  lastName: string;
-}) => {
-  console.log({ email, fistName, lastName });
+  id,
+}: SetUserParams) => {
+  userStore.setCurrentUser({ email, fistName, lastName, id });
+  router.push(`/users/${id}`);
 };
 </script>
 
 <template>
   <n-card
-    @click="HandleShowUserDetails({ email, fistName, lastName })"
+    @click="HandleShowUserDetails({ email, fistName, lastName, id })"
     style="padding: 0"
     :hoverable="true"
   >
