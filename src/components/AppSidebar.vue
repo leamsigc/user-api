@@ -37,8 +37,8 @@ const listContent = computed((): User[] => {
   }
 });
 
-function updateQuery({ target }: { target: HTMLInputElement }) {
-  searchQuery.value = target?.value;
+function updateQuery({ target }: Event) {
+  searchQuery.value = (target as HTMLInputElement)?.value;
 }
 </script>
 
