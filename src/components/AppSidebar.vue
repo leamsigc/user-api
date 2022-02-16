@@ -30,8 +30,10 @@ const searchQuery = ref<string>("");
 useInfiniteScroll(
   el,
   async () => {
+    const gender = route.query.gender || "all";
     loadingBar.start();
     await userStore.fetchNextPage();
+    listContent.value = userStore.getFilerList("", gender as string);
     loadingBar.finish();
   },
   { distance: 10 }
