@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useRandomUserStore } from "@/stores/users";
-import { NCollapse, NCollapseItem } from "naive-ui";
 import { toRefs } from "vue";
 
 interface props {

@@ -1,10 +1,11 @@
-import type { User } from "./ServiceInterface";
+import type { RemovableRef } from "@vueuse/core";
+import type { CurrentUser, User } from "./ServiceInterface";
 
 export default interface UserStore {
-  userList: User[];
-  unFilterUserList: User[];
-  currentUser: User | undefined;
-  currentPage: number;
+  userList: RemovableRef<User[]>;
+  unFilterUserList: RemovableRef<User[]>;
+  currentUser: RemovableRef<CurrentUser>;
+  currentPage: RemovableRef<number>;
   resultsPerPage: number;
   error: unknown | string;
   isLoading: boolean;

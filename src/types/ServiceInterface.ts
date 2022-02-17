@@ -39,23 +39,6 @@ export interface User {
     };
   };
   email: string;
-  login: {
-    uuid: string;
-    username: string;
-    password: string;
-    salt: string;
-    md5: string;
-    sha1: string;
-    sha256: string;
-  };
-  dob: {
-    date: string;
-    age: 68;
-  };
-  registered: {
-    date: string;
-    age: 12;
-  };
   phone: string;
   cell: string;
   id: {
@@ -68,6 +51,30 @@ export interface User {
     thumbnail: string;
   };
   nat: string;
+}
+export class CurrentUser implements User {
+  gender = "";
+  name = { title: "", first: "", last: "" };
+  location= {
+    street: { number: 0, name: "" },
+    city: "",
+    state: "",
+    country: "",
+    postcode: "",
+    coordinates: { latitude: "", longitude: "" },
+    timezone: { offset: "", description: "" },
+  };
+  email = "";
+  phone = "";
+  cell = "";
+  id = { name: "", value: "" };
+  picture = { large: "", medium: "", thumbnail: "" };
+  nat = "";
+  constructor(user?: User) {
+    if (user) {
+      Object.assign(this, user);
+    }
+  }
 }
 export interface SetUserParams {
   email: string;

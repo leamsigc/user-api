@@ -2,14 +2,15 @@ import type UserStore from "@/types/UserStoreInterface";
 import { UserService } from "@/services/UserService";
 import { defineStore } from "pinia";
 
-import type { SetUserParams } from "@/types/ServiceInterface";
+import { CurrentUser, type SetUserParams } from "@/types/ServiceInterface";
+import { useStorage } from "@vueuse/core";
 export const useRandomUserStore = defineStore({
   id: "users",
   state: (): UserStore => ({
-    userList: [],
-    unFilterUserList: [],
-    currentUser: undefined,
-    currentPage: 1,
+    userList: useStorage("userList", []),
+    unFilterUserList: useStorage("unFilterUserList", []),
+    currentUser: useStorage("currentUser", new CurrentUser()),
+    currentPage: useStorage("currentPage", 1),
     resultsPerPage: 25,
     error: "",
     isLoading: false,
@@ -62,13 +63,14 @@ export const useRandomUserStore = defineStore({
         this.isLoading = false;
       }
     },
-    setCurrentUser({ email, fistName, id, lastName }: SetUserParams) {
-      this.currentUser = this.userList.find(
-        (user) =>
-          user.email === email &&
-          user.name.first === fistName &&
-          user.name.last === lastName
-      );
+    async setCurrentUser({ email, fistName, id, lastName }: SetUserParams) {
+      this.currentUser =
+        this.userList.find(
+          (user) =>
+            user.email === email &&
+            user.name.first === fistName &&
+            user.name.last === lastName
+        ) || new CurrentUser();
     },
   },
 });
