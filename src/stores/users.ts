@@ -29,6 +29,7 @@ export const useRandomUserStore = defineStore({
               last.includes(searchQuery.toLowerCase())
             );
           }),
+    getCurrentUser: (state) => state.currentUser,
   },
   actions: {
     async fetchUserList() {

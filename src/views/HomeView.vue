@@ -14,7 +14,9 @@ usersList.fetchUserList();
     size="huge"
   >
     <template #footer>
-      <n-button>The new composition Api and setup Script is 🔥🔥🔥🔥</n-button>
+      <h1 class="text-3xl font-bold">
+        The new composition Api and setup Script is 🔥🔥🔥🔥
+      </h1>
     </template>
   </n-result>
 </template>

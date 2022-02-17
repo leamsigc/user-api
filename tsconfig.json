@@ -4,6 +4,9 @@
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "baseUrl": ".",
+    "lib": [
+      "es2017"
+    ],
     "paths": {
       "@/*": ["./src/*"]
     }
