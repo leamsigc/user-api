@@ -16,7 +16,7 @@ import { useRandomUserStore } from "@/stores/users";
 import { ref, watch } from "vue";
 import SidebarUserCard from "./SidebarUserCard.vue";
 
-import { useInfiniteScroll } from "@vueuse/core";
+import { useInfiniteScroll, useStorage } from "@vueuse/core";
 import { useRoute } from "vue-router";
 
 const userStore = useRandomUserStore();
@@ -28,7 +28,7 @@ const el = ref<HTMLElement>();
 const loadingBar = useLoadingBar();
 const route = useRoute();
 
-const searchQuery = ref<string>("");
+const searchQuery = useStorage("query", "");
 
 useInfiniteScroll(
   el,
