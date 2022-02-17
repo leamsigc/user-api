@@ -85,9 +85,9 @@ function getValues(item: object): string {
         </div>
       </div>
 
-      <div class="grid grid-1 gap-2 place-content-center ">
-        <div class=" max-w-4xl shadow overflow-hidden sm:rounded-lg">
-          <div class="px-4 py-5 sm:px-6 ">
+      <div class="grid grid-1 gap-2 place-content-center">
+        <div class="max-w-4xl shadow overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:px-6">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
               User details
             </h3>
@@ -95,47 +95,10 @@ function getValues(item: object): string {
               Details and information about user.
             </p>
           </div>
-          <div class="border-t border-gray-800 bg-slate-500 p-5">
-            <n-collapse
-              :default-expanded-names="['2']"
-              v-for="(item, key, index) in getCurrentUser"
-              :key="key"
-            >
-              <n-collapse-item :title="key" :name="index">
-                <template v-if="typeof item !== 'object'">
-                  <div class="text-sm font-medium text-left">
-                    <strong> {{ key.toUpperCase() }}: </strong>
-                    <div
-                      class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
-                    >
-                      {{ item }}
-                    </div>
-                  </div>
-                </template>
-                <template v-else>
-                  <n-collapse
-                    v-for="(value, anotherkey, j) in item"
-                    :key="anotherkey"
-                  >
-                    <n-collapse-item :title="anotherkey" :name="j">
-                      <div class="text-sm font-medium text-gray-500 text-left">
-                        <strong> {{ key.toUpperCase() }}: </strong>
-                        <div
-                          class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
-                        >
-                          {{
-                            typeof value === "object" ? getValues(value) : value
-                          }}
-                        </div>
-                      </div>
-                    </n-collapse-item>
-                  </n-collapse>
-                </template>
-              </n-collapse-item>
-            </n-collapse>
-            <!-- <dl>
+          <div class="border-t border-gray-800 p-5">
+            <dl>
               <div
-                class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+                class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 overflow-y-auto"
                 :class="{ 'bg-gray-50': index % 2, 'bg-gray-100': index % 1 }"
                 v-for="(item, key, index) in getCurrentUser"
                 :key="key"
@@ -170,7 +133,7 @@ function getValues(item: object): string {
                   </template>
                 </dd>
               </div>
-            </dl> -->
+            </dl>
           </div>
         </div>
       </div>

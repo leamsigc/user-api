@@ -13,7 +13,7 @@ export abstract class UserService {
     result,
     seed,
   }: FetchUserOption): Promise<AxiosResponse<ResponseUser>> {
-    const formatParam = `/?page=${page}&results=${result}&seed=${seed}`;
+    const formatParam = `/?page=${page}&results=${result}&seed=${seed}&exc=login,registered,dob,cell&nat=gb`;
     return await this.UserInstance.get(formatParam);
   }
 }
